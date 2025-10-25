@@ -1,10 +1,9 @@
-
 import os
 from pathlib import Path
 from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv(BASE_DIR / ".env")  # <- carga variables del .env
+load_dotenv(BASE_DIR / ".env") 
 
 DATABASES = {
     "default": {
@@ -14,15 +13,13 @@ DATABASES = {
 }
 
 
-SECRET_KEY = os.getenv("SECRET_KEY")  # <- ahora sí existe
+SECRET_KEY = os.getenv("SECRET_KEY") 
 
-# --- ⚙️ ESTÁTICOS (mínimo para DEV) ---
-STATIC_URL = "static/"               # <- esto es lo que te falta
-# Opcional (útil para prod/collectstatic):
+STATIC_URL = "static/"              
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 DEBUG = True
-ALLOWED_HOSTS = ["*"]  # solo DEV
+ALLOWED_HOSTS = ["*"]  
 
 INSTALLED_APPS = [
     "django.contrib.admin", "django.contrib.auth", "django.contrib.contenttypes",
@@ -30,7 +27,7 @@ INSTALLED_APPS = [
     "rest_framework", "corsheaders",
     "users",
 ]
-# Archivo de URLs raíz del proyecto
+
 ROOT_URLCONF = "core.urls"
 
 MIDDLEWARE = [
@@ -66,17 +63,18 @@ REST_FRAMEWORK = {
     "DEFAULT_PARSER_CLASSES": ["rest_framework.parsers.JSONParser"],
 }
 
-# Email por consola (para la captura del Ej.1)
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-# Recomendado por Django 3.2+
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# --- CORS (solo desarrollo) ---
-CORS_ALLOW_ALL_ORIGINS = True   # permite llamadas desde cualquier origen en dev
+CORS_ALLOW_ALL_ORIGINS = True  
 
-# Si servís el front con Live Server u otro puerto, agregalo acá:
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:5500",
     "http://localhost:5500",
 ]
+
+NOTIF_BASE_URL = os.getenv("NOTIF_BASE_URL", "http://127.0.0.1:8081").rstrip("/")
+NOTIF_FROM_EMAIL = os.getenv("NOTIF_FROM_EMAIL", "")
+NOTIFICATION_SERVICE_URL = "http://127.0.0.1:8081/notify/email/welcome"
