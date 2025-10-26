@@ -13,6 +13,8 @@ DATABASES = {
 }
 
 
+
+
 SECRET_KEY = os.getenv("SECRET_KEY") 
 
 STATIC_URL = "static/"              
@@ -71,8 +73,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CORS_ALLOW_ALL_ORIGINS = True  
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://127.0.0.1:5500",
+    "http://127.0.0.1:8080", 
+    "http://localhost:8080",
+    "http://127.0.0.1:5500", 
     "http://localhost:5500",
+
 ]
 
 NOTIF_BASE_URL = os.getenv("NOTIF_BASE_URL", "http://127.0.0.1:8081").rstrip("/")
