@@ -6,7 +6,7 @@ from rest_framework import status
 from .models import User
 from .serializers import UserSerializer
 from .utils.notify import send_welcome_email   
-
+from django.http import JsonResponse
 class UsersView(APIView):
     def get(self, request):
         users = User.objects.order_by("-id")
@@ -26,3 +26,8 @@ class UsersView(APIView):
             print("Notification failed:", e)
 
         return Response(UserSerializer(user).data, status=status.HTTP_201_CREATED)
+
+
+def healthcheck(request):
+    return JsonResponse({"status": "ok"})
+

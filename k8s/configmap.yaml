@@ -1,0 +1,23 @@
+#apiVersion: v1
+#kind: ConfigMap
+#metadata:
+#  name: users-config
+#data:
+  # El backend llama al microservicio de notificaciones por DNS interno:
+#  NOTIFY_BASE: "http://notification-service:8081"
+#  NOTIFY_TOKEN: "dev-secret"
+#  DJANGO_DEBUG: "true"
+#  DJANGO_ALLOWED_HOSTS: "*"
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: users-config
+  namespace: obligatorio
+data:
+  ENV: "prod"
+  PORT: "8000"
+  NOTIFICATION_URL: "http://notification-service.obligatorio.svc.cluster.local:8081/"
+  NOTIFICATION_TOKEN: "dev-secret"
+
+  

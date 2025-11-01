@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-deploy
+  namespace: obligatorio
+  labels: { app: users }
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: users }
+  template:
+    metadata:
+      labels: { app: users }
+    spec:
+      imagePullSecrets:
+        - name: ecr-creds
+      containers:
+        - name: users
+          image: 439590609369.dkr.ecr.us-east-1.amazonaws.com/obligatorio-backend:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef: { name: users-config }
+            - secretRef:    { name: db-secret }   # Si no tienes DB, deja el secret placeholder
