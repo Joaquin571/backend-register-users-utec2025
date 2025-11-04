@@ -1,0 +1,18 @@
+# k8s/users-internal-nlb-svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-internal
+  namespace: obligatorio
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "ip"
+    service.beta.kubernetes.io/aws-load-balancer-scheme: "internal"
+spec:
+  type: LoadBalancer
+  selector:
+    app: users
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8000
