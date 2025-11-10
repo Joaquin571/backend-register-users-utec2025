@@ -1,9 +1,16 @@
 import os
 import requests
 
-NOTIFY_BASE = os.getenv("NOTIFY_BASE", "http://127.0.0.1:8081")
+NOTIFY_BASE = (
+    os.getenv("NOTIFY_BASE")              # .env local, si existe
+    or os.getenv("NOTIFICATION_URL")      # ConfigMap en K8s
+    or "http://notification-service:8081" # default para K8s
+)
+NOTIFY_BASE = NOTIFY_BASE.rstrip("/")
+
 NOTIFY_TOKEN = os.getenv("NOTIFY_TOKEN", "dev-secret")
 NOTIFY_TIMEOUT = float(os.getenv("NOTIFY_TIMEOUT", "3"))
+
 
 def send_welcome_email(to_email: str, name: str, phone: str):
     """
@@ -18,5 +25,5 @@ def send_welcome_email(to_email: str, name: str, phone: str):
     }
 
     resp = requests.post(url, json=payload, headers=headers, timeout=NOTIFY_TIMEOUT)
-    resp.raise_for_status() 
+    resp.raise_for_status()
     return resp.json() if resp.content else {}

@@ -89,6 +89,14 @@ CSRF_TRUSTED_ORIGINS = [
 
 ]
 
-NOTIF_BASE_URL = os.getenv("NOTIF_BASE_URL", "http://127.0.0.1:8081").rstrip("/")
+NOTIF_BASE_URL = os.getenv(
+    "NOTIF_BASE_URL",
+    "http://notification-service:8081", 
+).rstrip("/")
+
 NOTIF_FROM_EMAIL = os.getenv("NOTIF_FROM_EMAIL", "")
-NOTIFICATION_SERVICE_URL = "http://127.0.0.1:8081/notify/email/welcome"
+
+NOTIFICATION_SERVICE_URL = os.getenv(
+    "NOTIFICATION_SERVICE_URL",
+    f"{NOTIF_BASE_URL}/notify/email/welcome",
+)

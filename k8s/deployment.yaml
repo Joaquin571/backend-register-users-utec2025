@@ -16,9 +16,9 @@ spec:
         - name: ecr-creds
       containers:
         - name: users
-          image: 439590609369.dkr.ecr.us-east-1.amazonaws.com/obligatorio-backend:latest
+          image: 825501491126.dkr.ecr.us-east-1.amazonaws.com/users-api-service:latest
           ports:
             - containerPort: 8000
           envFrom:
             - configMapRef: { name: users-config }
-            - secretRef:    { name: db-secret }   # Si no tienes DB, deja el secret placeholder
+            - secretRef:    { name: db-secret }  
