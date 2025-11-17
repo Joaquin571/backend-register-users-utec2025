@@ -2,9 +2,9 @@ import os
 import requests
 
 NOTIFY_BASE = (
-    os.getenv("NOTIFY_BASE")              # .env local, si existe
-    or os.getenv("NOTIFICATION_URL")      # ConfigMap en K8s
-    or "http://notification-service:8081" # default para K8s
+    os.getenv("NOTIFY_BASE")              
+    or os.getenv("NOTIFICATION_URL")     
+    or "http://notification-service:8081" 
 )
 NOTIFY_BASE = NOTIFY_BASE.rstrip("/")
 
@@ -27,3 +27,21 @@ def send_welcome_email(to_email: str, name: str, phone: str):
     resp = requests.post(url, json=payload, headers=headers, timeout=NOTIFY_TIMEOUT)
     resp.raise_for_status()
     return resp.json() if resp.content else {}
+
+def send_admin_notification(admin_email: str, name: str, email: str, phone: str):
+    url = f"{NOTIFY_BASE}/notify/email/admin"
+    payload = {
+        "admin_email": admin_email,
+        "name": name,
+        "email": email,
+        "phone": phone,
+    }
+    headers = {
+        "Authorization": f"Bearer {NOTIFY_TOKEN}",
+        "Content-Type": "application/json",
+    }
+
+    resp = requests.post(url, json=payload, headers=headers, timeout=NOTIFY_TIMEOUT)
+    resp.raise_for_status()
+    return resp.json() if resp.content else {}
+

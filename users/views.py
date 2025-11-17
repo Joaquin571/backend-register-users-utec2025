@@ -7,12 +7,10 @@ from .models import User
 from .serializers import UserSerializer
 from .utils.notify import send_welcome_email   
 from django.http import JsonResponse
-class UsersView(APIView):
-    def get(self, request):
-        users = User.objects.order_by("-id")
-        data = UserSerializer(users, many=True).data
-        return Response(data)
+from django.conf import settings
+from .utils.notify import send_welcome_email, send_admin_notification
 
+class UsersView(APIView):
     def post(self, request):
         ser = UserSerializer(data=request.data)
         if not ser.is_valid():
@@ -21,12 +19,20 @@ class UsersView(APIView):
         user = ser.save()
 
         try:
+            
             send_welcome_email(user.email, user.name, user.phone)
+
+    
+            send_admin_notification(
+                settings.ADMIN_EMAIL,
+                user.name,
+                user.email,
+                user.phone
+            )
         except Exception as e:
             print("Notification failed:", e)
 
         return Response(UserSerializer(user).data, status=status.HTTP_201_CREATED)
-
 
 def healthcheck(request):
     return JsonResponse({"status": "ok"})

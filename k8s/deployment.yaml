@@ -16,7 +16,7 @@ spec:
         - name: ecr-creds
       containers:
         - name: users
-          image: 825501491126.dkr.ecr.us-east-1.amazonaws.com/users-api-service:latest
+          image: 284018946426.dkr.ecr.us-east-1.amazonaws.com/users-api-service:latest
           ports:
             - containerPort: 8000
           envFrom:

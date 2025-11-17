@@ -12,15 +12,15 @@ DATABASES = {
     }
 }
 
-#/DATABASES = {
+#DATABASES = {
  #   'default': {
   #      'ENGINE': 'django.db.backends.postgresql',
-   #     'NAME': os.getenv('POSTGRES_DB'),
-    #    'USER': os.getenv('POSTGRES_USER'),
-     #   'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-      #  'HOST': os.getenv('POSTGRES_HOST'),
-       # 'PORT': os.getenv('POSTGRES_PORT', '5432'),
-    #}
+   #     'NAME': os.getenv('DB_NAME'),
+    #    'USER': os.getenv('DB_USER'),
+     #   'PASSWORD': os.getenv('DB_PASSWORD'),
+      #  'HOST': os.getenv('DB_HOST'),
+       # 'PORT': os.getenv('DB_PORT', '5432'),
+ #   }
 #}
 
 
@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-# DRF sólo JSON
+
 REST_FRAMEWORK = {
     "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],
     "DEFAULT_PARSER_CLASSES": ["rest_framework.parsers.JSONParser"],
