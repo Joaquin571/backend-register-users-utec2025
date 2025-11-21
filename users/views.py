@@ -2,15 +2,19 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-
 from .models import User
 from .serializers import UserSerializer
-from .utils.notify import send_welcome_email   
+from .utils.notify import send_welcome_email, send_admin_notification
 from django.http import JsonResponse
 from django.conf import settings
-from .utils.notify import send_welcome_email, send_admin_notification
 
 class UsersView(APIView):
+
+    def get(self, request):
+        users = User.objects.all().order_by('-created_at')
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     def post(self, request):
         ser = UserSerializer(data=request.data)
         if not ser.is_valid():
@@ -19,10 +23,8 @@ class UsersView(APIView):
         user = ser.save()
 
         try:
-            
             send_welcome_email(user.email, user.name, user.phone)
 
-    
             send_admin_notification(
                 settings.ADMIN_EMAIL,
                 user.name,
@@ -36,4 +38,3 @@ class UsersView(APIView):
 
 def healthcheck(request):
     return JsonResponse({"status": "ok"})
-
